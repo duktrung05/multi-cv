@@ -1,8 +1,8 @@
-name: detect_bolt
+name: reas-iasvas-add-multilabel-classification
 
 services:
   api:
-    image: detect_bolt:local
+    image: reas-iasvas-add-multilabel-classification:local
     build:
       context: .
       args:
@@ -13,8 +13,8 @@ services:
       APP_HOST: 0.0.0.0
       APP_PORT: "8126"
       MODEL_DEVICE: cpu
-      INSPECTION_CONFIG: /app/configs/product_inspection.yml
-      INSPECTION_CKPT: /app/ckpts/product_inspection.pth
+      CLASSIFICATION_CONFIG: /app/configs/dgm4_binary.yml
+      CLASSIFICATION_CKPT: /app/ckpts/dgm4_binary.pth
       WORK_DIR: /app/outputs/jobs
       TMP_DIR: /app/outputs/tmp
     ports:
@@ -22,9 +22,9 @@ services:
     volumes:
       - ./ckpts:/app/ckpts:ro
       - ./configs:/app/configs:ro
-      - inspection_outputs:/app/outputs
+      - classification_outputs:/app/outputs
     init: true
     restart: "no"
 
 volumes:
-  inspection_outputs:
+  classification_outputs:

@@ -143,7 +143,7 @@ class AsyncPipelineWorkers:
                         "coarse_score": result.coarse_score,
                         "detail_label": result.detail_label,
                         "detail_score": result.detail_score,
-                        "inspection": result.meta,
+                        "classification": result.meta,
                         "artifacts": ctx["artifacts"],
                     }
                     self._callback.send(record.job.callback_url, payload)

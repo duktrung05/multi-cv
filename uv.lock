@@ -362,7 +362,7 @@ wheels = [
 ]
 
 [[package]]
-name = "detect-bolt"
+name = "reas-iasvas-add-multilabel-classification"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

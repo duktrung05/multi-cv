@@ -5,7 +5,7 @@ hoặc Docker. Hướng dẫn này chuẩn bị cả hai cách; chưa thực thi
 
 Trạng thái: đã viết code dataset, frozen DINOv3 + linear head hai lớp, cache đặc
 trưng, checkpoint và đánh giá. Chưa có pretrained trong dự án; chưa train thật.
-API/Gradio vẫn là luồng kiểm lỗi sản phẩm cũ, chưa dùng cho DGM4.
+API/Gradio đã dùng chung predictor DGM4 với CLI. Cần checkpoint DGM4 đã train để khởi động ứng dụng.
 
 Kiểm chứng cục bộ: 6 unit test DGM4 thành công (annotation, mapping, backbone giả
 lập được đóng băng, học head, lưu/nạp checkpoint, metric và ngưỡng). 9 file Python

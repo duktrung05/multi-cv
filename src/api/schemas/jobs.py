@@ -23,5 +23,5 @@ class JobStatusResponse(BaseModel):
     coarse_score: float | None = None
     detail_label: str | None = None
     detail_score: float | None = None
-    inspection: dict | None = None
+    classification: dict | None = None
     artifacts: dict[str, str] = Field(default_factory=dict)

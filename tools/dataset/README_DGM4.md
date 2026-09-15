@@ -31,4 +31,4 @@ vẫn nên kiểm tra trực quan trước khi huấn luyện. Đây là dataset
 khuôn mặt, không đại diện mọi công cụ AI hay mọi kiểu chỉnh sửa ảnh.
 
 Manifest giữ nhãn, nguồn, ID, phương pháp, bbox gốc và hash pixel để truy vết.
-Dataset này chưa tự thay đổi model/cấu hình kiểm tra lỗi sản phẩm của dự án.
+API, giao diện và train hiện dùng configs/dgm4_binary.yml. Cần xử lý ảnh gần trùng và audit trước khi train.

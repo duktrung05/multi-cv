@@ -1,7 +1,7 @@
 [project]
-name = "detect_bolt"
+name = "reas-iasvas-add-multilabel-classification"
 version = "0.1.0"
-description = "DINOv3 multi-label product defect inspection for images and video"
+description = "DINOv3 REAL / AI_EDITED face manipulation classification"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

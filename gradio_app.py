@@ -1,6 +1,6 @@
-"""Product inspection demo using the same model and policy as the API."""
+"""DGM4 face manipulation demo using the same predictor as the API."""
 import argparse
-from src.domain.inspection import DEFAULT_CONFIG, DEFAULT_WEIGHTS, inspection_payload
+from src.domain.forensics import DEFAULT_CONFIG, DEFAULT_WEIGHTS, classification_payload
 from src.infrastructure.ml.model_factory import ModelFactory
 
 
@@ -17,19 +17,20 @@ def main():
 
     def predict(path):
         if not path:
-            raise gr.Error("Vui lòng chọn ảnh sản phẩm")
+            raise gr.Error("Vui lòng chọn ảnh")
         result = inspector.classify_image(path)
-        return result.coarse_label, result.meta["scores"], inspection_payload(result)
+        return result.coarse_label, result.meta["scores"], classification_payload(result)
 
     gr.Interface(
         fn=predict,
-        inputs=gr.Image(type="filepath", label="Ảnh sản phẩm"),
-        outputs=[gr.Textbox(label="Kết quả PASS / REVIEW / FAIL"),
-                 gr.Label(num_top_classes=len(inspector.class_names), label="Điểm dự đoán từng lỗi"),
-                 gr.JSON(label="Chi tiết kiểm tra")],
-        title="detect_bolt — Kiểm tra lỗi sản phẩm",
-        description="Tải ảnh của loại sản phẩm đã được huấn luyện. REVIEW: cần người kiểm tra lại. "
-                    "Kết quả phân loại toàn ảnh; chưa khoanh vùng lỗi.",
+        inputs=gr.Image(type="filepath", label="Ảnh cần kiểm tra"),
+        outputs=[gr.Textbox(label="Kết quả REAL / AI_EDITED"),
+                 gr.Label(num_top_classes=len(inspector.class_names), label="Điểm dự đoán từng lớp"),
+                 gr.JSON(label="Chi tiết dự đoán")],
+        title="ReaS IAS VAS — Phát hiện khuôn mặt bị AI chỉnh sửa",
+        description="Phân biệt ảnh gốc và ảnh chỉnh sửa khuôn mặt bằng AI. "
+                    "Model học từ DGM4 (SimSwap/StyleCLIP); chưa khoanh vùng chỉnh sửa. "
+                    "Điểm dự đoán không phải bằng chứng xác thực ảnh.",
     ).launch(server_name=args.host, server_port=args.port)
 
 

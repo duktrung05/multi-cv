@@ -24,7 +24,7 @@ def create_app(container_builder: Callable = build_container) -> FastAPI:
         finally:
             await container.workers.stop()
 
-    app = FastAPI(title="detect_bolt API", lifespan=lifespan)
+    app = FastAPI(title="reas-iasvas-add-multilabel-classification API", lifespan=lifespan)
     app.include_router(health_router)
     app.include_router(jobs_router)
     app.include_router(test_classify_router)

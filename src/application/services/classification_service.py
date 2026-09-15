@@ -4,7 +4,7 @@ from threading import Semaphore
 
 from src.domain.entities import ClassificationResult
 from src.domain.ports import ClassifierPort
-from src.domain.inspection import aggregate_frames
+from src.domain.forensics import aggregate_frames
 
 
 class ClassificationService:

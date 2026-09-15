@@ -10,8 +10,8 @@ from dataclasses import dataclass
 class Settings:
     host: str = "0.0.0.0"
     port: int = 8126
-    inspection_config: str = "configs/product_inspection.yml"
-    inspection_ckpt: str = "ckpts/product_inspection.pth"
+    classification_config: str = "configs/dgm4_binary.yml"
+    classification_ckpt: str = "ckpts/dgm4_binary.pth"
     model_device: str = "auto"
     work_dir: str = "outputs/jobs"
     tmp_dir: str = "outputs/tmp"
@@ -27,8 +27,8 @@ class Settings:
         return Settings(
             host=os.getenv("APP_HOST", "0.0.0.0"),
             port=int(os.getenv("APP_PORT", "8126")),
-            inspection_config=os.getenv("INSPECTION_CONFIG", "configs/product_inspection.yml"),
-            inspection_ckpt=os.getenv("INSPECTION_CKPT", "ckpts/product_inspection.pth"),
+            classification_config=os.getenv("CLASSIFICATION_CONFIG", "configs/dgm4_binary.yml"),
+            classification_ckpt=os.getenv("CLASSIFICATION_CKPT", "ckpts/dgm4_binary.pth"),
             model_device=os.getenv("MODEL_DEVICE", "auto"),
             work_dir=os.getenv("WORK_DIR", "outputs/jobs"),
             tmp_dir=os.getenv("TMP_DIR", "outputs/tmp"),

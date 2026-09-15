@@ -60,6 +60,6 @@ def get_job_status(
         coarse_score=record.result.coarse_score if record.result else None,
         detail_label=record.result.detail_label if record.result else None,
         detail_score=record.result.detail_score if record.result else None,
-        inspection=record.result.meta if record.result else None,
+        classification=record.result.meta if record.result else None,
         artifacts=record.artifacts,
     )

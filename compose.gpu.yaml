@@ -2,7 +2,7 @@
 # docker compose -f compose.yaml -f compose.gpu.yaml up --build -d
 services:
   api:
-    image: detect_bolt:gpu
+    image: reas-iasvas-add-multilabel-classification:gpu
     build:
       args:
         TORCH_INDEX_URL: https://download.pytorch.org/whl/cu124
