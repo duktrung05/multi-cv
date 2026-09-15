@@ -1,0 +1,51 @@
+task: classification
+num_classes: 0
+
+train_dataloader:
+  type: DataLoader
+  dataset:
+    type: ReasImageFolderClassification
+    root: data/reas_imagefolder_16cls/train
+    classes_root: data/reas_imagefolder_16cls/train
+    class_merge:
+      NSFW_EXPLICIT: [PRIVATE_PART, NUDE, SEDUCTIVE, PORN]
+    class_list:
+      - WOMANS_FACE
+      - WOMAN
+      - MALE
+      - PEOPLE
+      - MANY_PEOPLE
+      - NSFW_EXPLICIT
+      - SEX_TOY
+      - TEXT
+      - COMICS
+      - PORN_COMICS
+      - PERSONAL_DATA
+      - CHILD
+      - NO_PEOPLE
+
+
+val_dataloader:
+  type: DataLoader
+  dataset:
+    type: ReasImageFolderClassification
+    root: data/reas_imagefolder_16cls/valid
+    classes_root: data/reas_imagefolder_16cls/train
+    drop_unknown: True
+    class_merge:
+      NSFW_EXPLICIT: [PRIVATE_PART, NUDE, SEDUCTIVE, PORN]
+    class_list:
+      - WOMANS_FACE
+      - WOMAN
+      - MALE
+      - PEOPLE
+      - MANY_PEOPLE
+      - NSFW_EXPLICIT
+      - SEX_TOY
+      - TEXT
+      - COMICS
+      - PORN_COMICS
+      - PERSONAL_DATA
+      - CHILD
+      - NO_PEOPLE
+

@@ -1,0 +1,30 @@
+name: detect_bolt
+
+services:
+  api:
+    image: detect_bolt:local
+    build:
+      context: .
+      args:
+        TORCH_INDEX_URL: https://download.pytorch.org/whl/cpu
+    env_file:
+      - .env
+    environment:
+      APP_HOST: 0.0.0.0
+      APP_PORT: "8126"
+      MODEL_DEVICE: cpu
+      INSPECTION_CONFIG: /app/configs/product_inspection.yml
+      INSPECTION_CKPT: /app/ckpts/product_inspection.pth
+      WORK_DIR: /app/outputs/jobs
+      TMP_DIR: /app/outputs/tmp
+    ports:
+      - "${APP_HOST:-127.0.0.1}:${APP_PORT:-8126}:8126"
+    volumes:
+      - ./ckpts:/app/ckpts:ro
+      - ./configs:/app/configs:ro
+      - inspection_outputs:/app/outputs
+    init: true
+    restart: "no"
+
+volumes:
+  inspection_outputs:

@@ -1,0 +1,88 @@
+task: multilabel_classification
+num_classes: 16
+num_decision_classes: 3
+
+# Contract for the all-in-one benchmark path:
+# - 16 independent ReaS labels are trained as multi-label targets.
+# - decision_classes are a separate 3-way moderation decision target.
+# The current classification engine is single-label; this YAML is intended for
+# the multi-label training path after dataset/criterion support is added.
+label_mode: multilabel_with_decision
+class_list:
+  - WOMANS_FACE
+  - WOMAN
+  - MALE
+  - PEOPLE
+  - MANY_PEOPLE
+  - PRIVATE_PART
+  - NUDE
+  - SEDUCTIVE
+  - PORN
+  - SEX_TOY
+  - TEXT
+  - COMICS
+  - PORN_COMICS
+  - PERSONAL_DATA
+  - CHILD
+  - NO_PEOPLE
+decision_classes:
+  - SAFE
+  - REVIEW
+  - BLOCK
+
+train_dataloader:
+  type: DataLoader
+  dataset:
+    type: ReasMultiLabelImageFolderClassification
+    root: data/reas_multilabel_16cls_3decision/train
+    classes_root: data/reas_multilabel_16cls_3decision/train
+    class_list:
+      - WOMANS_FACE
+      - WOMAN
+      - MALE
+      - PEOPLE
+      - MANY_PEOPLE
+      - PRIVATE_PART
+      - NUDE
+      - SEDUCTIVE
+      - PORN
+      - SEX_TOY
+      - TEXT
+      - COMICS
+      - PORN_COMICS
+      - PERSONAL_DATA
+      - CHILD
+      - NO_PEOPLE
+    decision_classes:
+      - SAFE
+      - REVIEW
+      - BLOCK
+
+val_dataloader:
+  type: DataLoader
+  dataset:
+    type: ReasMultiLabelImageFolderClassification
+    root: data/reas_multilabel_16cls_3decision/valid
+    classes_root: data/reas_multilabel_16cls_3decision/train
+    drop_unknown: True
+    class_list:
+      - WOMANS_FACE
+      - WOMAN
+      - MALE
+      - PEOPLE
+      - MANY_PEOPLE
+      - PRIVATE_PART
+      - NUDE
+      - SEDUCTIVE
+      - PORN
+      - SEX_TOY
+      - TEXT
+      - COMICS
+      - PORN_COMICS
+      - PERSONAL_DATA
+      - CHILD
+      - NO_PEOPLE
+    decision_classes:
+      - SAFE
+      - REVIEW
+      - BLOCK

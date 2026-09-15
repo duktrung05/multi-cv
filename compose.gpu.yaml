@@ -1,0 +1,17 @@
+# Requires NVIDIA GPU support in the Docker host.
+# docker compose -f compose.yaml -f compose.gpu.yaml up --build -d
+services:
+  api:
+    image: detect_bolt:gpu
+    build:
+      args:
+        TORCH_INDEX_URL: https://download.pytorch.org/whl/cu124
+    environment:
+      MODEL_DEVICE: cuda:0
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

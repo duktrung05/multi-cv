@@ -1,0 +1,17 @@
+task: classification
+num_classes: 15
+
+train_dataloader:
+  type: DataLoader
+  dataset:
+    type: ReasImageFolderClassification
+    root: data/reas_imagefolder_15cls/train
+    classes_root: data/reas_imagefolder_15cls/train
+
+val_dataloader:
+  type: DataLoader
+  dataset:
+    type: ReasImageFolderClassification
+    root: data/reas_imagefolder_15cls/valid
+    classes_root: data/reas_imagefolder_15cls/train
+    drop_unknown: True

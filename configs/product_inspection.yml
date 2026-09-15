@@ -1,0 +1,78 @@
+# One product type per model. Whole-image multi-label inspection; no bounding boxes.
+task: multilabel_classification
+task_domain: product_inspection
+num_classes: 7
+class_list: &defects [DENT, SCRATCH, CRACK, DIRT, MISSING_PART, MISSING_LABEL, MISALIGNED_LABEL]
+model: DINOv3STAsMultiLabelClassifier
+DINOv3STAsMultiLabelClassifier:
+  num_classes: 7
+  use_all_scales: true
+  pooling: gap
+  head_dropout: 0.1
+  backbone:
+    type: DINOv3STAs
+    name: dinov3_vits16
+    weights_path: ckpts/dinov3_vits16_pretrain_lvd1689m-08c60483.pth
+    interaction_indexes: [5, 8, 11]
+    finetune: true
+    conv_inplane: 32
+    hidden_dim: 224
+criterion: MultiLabelBCELoss
+MultiLabelBCELoss:
+  auto_pos_weight: true
+optimizer:
+  type: AdamW
+  lr: 0.0001
+  weight_decay: 0.0001
+lr_scheduler:
+  type: ReduceLROnPlateau
+  mode: max
+  factor: 0.5
+  patience: 3
+output_dir: outputs/product_inspection
+summary_dir: outputs/product_inspection/summary
+epoches: 40
+device: cuda:0
+seed: 42
+use_amp: false
+use_ema: false
+sync_bn: false
+find_unused_parameters: true
+early_stopping_patience: 10
+multilabel_threshold: 0.5
+# Starting policy values only; calibrate on validation data before deployment.
+inspection_review_threshold: 0.3
+inspection_fail_threshold: 0.7
+train_dataloader:
+  type: DataLoader
+  total_batch_size: 8
+  num_workers: 0
+  shuffle: true
+  drop_last: false
+  dataset:
+    type: ProductInspectionDataset
+    root: data/product_inspection/train
+    annotations_path: data/product_inspection/train.csv
+    class_list: *defects
+    transforms: &eval_transform
+      type: Compose
+      ops:
+        - {type: Resize, size: [384, 384]}
+        - {type: ConvertPILImage, dtype: float32, scale: true}
+        - {type: Normalize, mean: [0.485, 0.456, 0.406], std: [0.229, 0.224, 0.225]}
+  collate_fn:
+    type: MultilabelCollateFunction
+val_dataloader:
+  type: DataLoader
+  total_batch_size: 8
+  num_workers: 0
+  shuffle: false
+  drop_last: false
+  dataset:
+    type: ProductInspectionDataset
+    root: data/product_inspection/valid
+    annotations_path: data/product_inspection/valid.csv
+    class_list: *defects
+    transforms: *eval_transform
+  collate_fn:
+    type: MultilabelCollateFunction

@@ -1,0 +1,32 @@
+# Standalone training: docker compose -f compose.train.yaml run --rm trainer
+name: dgm4_training
+services:
+  trainer:
+    image: dgm4_training:cuda124
+    build:
+      context: .
+      args:
+        TORCH_INDEX_URL: https://download.pytorch.org/whl/cu124
+    user: "${TRAIN_UID:-10001}:${TRAIN_GID:-10001}"
+    working_dir: /app
+    environment:
+      PYTHONUNBUFFERED: "1"
+      MPLBACKEND: Agg
+    volumes:
+      - ${DGM4_DATASET_DIR:-./data/dgm4_binary}:/app/data/dgm4_binary:ro
+      - ${DGM4_CKPT_DIR:-./ckpts}:/app/ckpts:ro
+      - ./configs:/app/configs:ro
+      - ./outputs:/app/outputs
+    command: ["python", "train.py", "-c", "configs/dgm4_binary.yml", "-u", "device=cuda:0"]
+    healthcheck:
+      disable: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${TRAIN_GPU_ID:-0}"]
+              capabilities: [gpu]
+    init: true
+    shm_size: 1gb
+    restart: "no"

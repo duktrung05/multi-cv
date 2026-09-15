@@ -1,0 +1,48 @@
+__include__:
+  - '../dataset/reas_multilabel_16cls_3decision.yml'
+  - '../base/dataloader_cls.yml'
+  - '../runtime.yml'
+  - '../base/optimizer.yml'
+
+output_dir: ./outputs/reas_cls_dinov3_vit_s_multilabel_16cls_3decision
+summary_dir: ./outputs/reas_cls_dinov3_vit_s_multilabel_16cls_3decision/summary
+
+epoches: 68
+
+model: DINOv3STAsMultiLabelDecisionClassifier
+DINOv3STAsMultiLabelDecisionClassifier:
+  num_classes: 16
+  num_decision_classes: 3
+  use_all_scales: true
+  backbone:
+    type: DINOv3STAs
+    name: dinov3_vits16
+    weights_path: ./ckpts/dinov3_vits16_pretrain_lvd1689m-08c60483.pth
+    interaction_indexes: [5, 8, 11]
+    finetune: True
+    conv_inplane: 32
+    hidden_dim: 224
+
+criterion: MultiLabelDecisionLoss
+MultiLabelDecisionLoss:
+  label_loss: BCEWithLogitsLoss
+  decision_loss: CrossEntropyLoss
+  decision_weight: 1.0
+
+optimizer:
+  type: MuSGD
+  auto_grouping: ultralytics_musgd
+  lr: 0.0008
+  momentum: 0.95
+  nesterov: true
+  weight_decay: 0.000125
+  muon: 0.2
+  sgd: 1.0
+
+lr_scheduler:
+  type: ReduceLROnPlateau
+  mode: max
+  factor: 0.75
+  patience: 3
+  threshold: 0.0005
+  min_lr: 1.0e-7

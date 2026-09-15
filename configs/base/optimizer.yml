@@ -1,0 +1,35 @@
+use_amp: True
+use_ema: True
+ema:
+  type: ModelEMA
+  decay: 0.9999
+  warmups: 1000
+  start: 0
+
+epoches: 72
+clip_max_norm: 0.1
+
+
+optimizer:
+  type: Muon
+  params:
+    -
+      params: '^(?=.*backbone)(?!.*norm).*$'
+      lr: 0.0003
+    -
+      params: '^(?=.*(?:encoder|decoder))(?=.*(?:norm|bn)).*$'
+      weight_decay: 0.
+
+  lr: 0.0008
+  weight_decay: 0.000125
+  momentum: 0.95
+
+
+lr_scheduler:
+  type: CosineAnnealingLR
+  T_max: 72
+  eta_min: 0.0
+
+lr_warmup_scheduler:
+  type: LinearWarmup
+  warmup_duration: 500

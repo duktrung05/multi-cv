@@ -1,0 +1,27 @@
+[project]
+name = "detect_bolt"
+version = "0.1.0"
+description = "DINOv3 multi-label product defect inspection for images and video"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "python-dotenv>=1.0,<2",
+    "gradio>=5,<6",
+    "pillow>=10",
+    "matplotlib>=3.8",
+    "calflops>=0.3.2",
+    "faster-coco-eval>=1.6.7",
+    "fastapi>=0.116.1",
+    "httpx>=0.28.1",
+    "pydantic>=2.11.7",
+    "python-multipart>=0.0.20",
+    "pyyaml>=6.0.3",
+    "scipy>=1.17.1",
+    "tensorboard>=2.20.0",
+    "torch==2.5.1",
+    "torchvision==0.20.1",
+    "transformers>=5.4.0",
+    "ultralytics>=8.4.46",
+    "uvicorn>=0.35.0",
+]
+

@@ -1,0 +1,23 @@
+task: classification
+
+# num_classes will be overridden automatically by `train.py` (based on `data/train`),
+# but keep it here for completeness.
+num_classes: 0
+
+train_dataloader:
+  type: DataLoader
+  dataset:
+    type: PokemonImageFolderClassification
+    root: data/train
+    # Use ONLY train folders for the canonical class list.
+    classes_root: data/train
+
+val_dataloader:
+  type: DataLoader
+  dataset:
+    type: PokemonImageFolderClassification
+    root: data/valid
+    # Ignore class folders in val that don't exist in train.
+    classes_root: data/train
+    drop_unknown: True
+

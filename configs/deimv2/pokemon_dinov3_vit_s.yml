@@ -1,0 +1,48 @@
+__include__:
+  - '../dataset/pokemon_classification.yml'
+  - '../base/dataloader_cls.yml'
+  - '../runtime.yml'
+  - '../base/optimizer.yml'
+
+output_dir: ./outputs/pokemon_cls_dinov3_vit_s
+
+epoches: 68
+
+model: DINOv3STAsClassifier
+DINOv3STAsClassifier:
+  num_classes: 1
+  use_all_scales: true
+  backbone:
+    type: DINOv3STAs
+    name: dinov3_vits16
+    weights_path: ./ckpts/dinov3_vits16_pretrain_lvd1689m-08c60483.pth
+    interaction_indexes: [5, 8, 11]
+    finetune: True
+    conv_inplane: 32
+    hidden_dim: 224
+
+criterion: ClassificationCrossEntropy
+ClassificationCrossEntropy:
+  label_smoothing: 0.0
+
+optimizer:
+  type: AdamW
+  params:
+    -
+      # except norm/bn/bias in self.dinov3
+      params: '^(?=.*.dinov3)(?!.*(?:norm|bn|bias)).*$'
+      lr: 0.0000125
+    -
+      # including norm/bn/bias in self.dinov3
+      params: '^(?=.*.dinov3)(?=.*(?:norm|bn|bias)).*$'
+      lr: 0.0000125
+      weight_decay: 0.
+    -
+      # including norm/bn/bias except for the self.dinov3
+      params: '^(?=.*(?:sta|encoder|decoder))(?=.*(?:norm|bn|bias)).*$'
+      weight_decay: 0.
+
+  lr: 0.0005
+  betas: [0.9, 0.999]
+  weight_decay: 0.000125
+

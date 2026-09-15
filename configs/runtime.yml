@@ -1,0 +1,34 @@
+print_freq: 500
+output_dir: './logs'
+summary_dir: './logs/summary'
+checkpoint_freq: 12
+
+seed: 0
+print_method: builtin
+print_rank: 0
+device: cuda:0
+resume:
+tuning:
+test_only: false
+save_checkpoints: false
+nsfw_engine_path: ''
+nsfw_refine: false
+
+# EarlyStopping: stop after this many epochs without improvement.
+early_stopping_patience: 10
+
+sync_bn: True
+find_unused_parameters: True
+
+
+use_amp: False
+scaler:
+  type: GradScaler
+  enabled: True
+
+
+use_ema: False
+ema:
+  type: ModelEMA
+  decay: 0.9999
+  warmups: 1000
